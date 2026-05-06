@@ -15,6 +15,7 @@ public class Spot {
     @OneToMany(mappedBy = "spot",cascade = CascadeType.ALL)
     List<Reservation> reservationList;
 
+    @Enumerated(EnumType.STRING)
     SpotType spotType;
     private Integer pricePerHour;
     private Boolean occupied;
