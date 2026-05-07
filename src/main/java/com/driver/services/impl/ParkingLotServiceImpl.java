@@ -20,6 +20,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     private final SpotRepository spotRepository1;
 
 
+    @Autowired
     public ParkingLotServiceImpl(ParkingLotRepository parkingLotRepository, SpotRepository spotRepository1) {
         this.parkingLotRepository = parkingLotRepository;
         this.spotRepository1 = spotRepository1;
