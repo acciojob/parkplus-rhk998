@@ -19,6 +19,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     private final ParkingLotRepository parkingLotRepository;
     private final SpotRepository spotRepository1;
 
+    List<Spot> spotList;
 
     @Autowired
     public ParkingLotServiceImpl(ParkingLotRepository parkingLotRepository, SpotRepository spotRepository1) {
