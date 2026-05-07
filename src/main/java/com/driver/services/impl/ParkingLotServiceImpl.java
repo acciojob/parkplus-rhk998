@@ -38,7 +38,8 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     public Spot addSpot(int parkingLotId, Integer numberOfWheels, Integer pricePerHour) {
         Spot spot = new Spot();
         ParkingLot parkingLot = parkingLotRepository.findById(parkingLotId).orElseThrow(()->new ParkingLotNotAvailable("parking lot not available"));
-        List<Spot> spotList = parkingLot.getSpotList();
+        List<Spot> spotList = new ArrayList<>();
+        spotList = parkingLot.getSpotList();
         spot.setParkingLot(parkingLot);
         spot.setPricePerHour(pricePerHour);
         SpotType spotType = SpotType.OTHERS ;
@@ -56,14 +57,6 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     }
 
     @Override
-//    public void deleteSpot(int spotId) {
-//        Spot spot = spotRepository1.findById(spotId).orElseThrow(()-> new NoSpotAvailable("No spot is available with Id " + spotId));
-//        ParkingLot parkingLot = spot.getParkingLot();
-//        List<Spot> spotList = parkingLot.getSpotList();
-//        spotList.remove(spot);
-//        spotRepository1.deleteById(spotId);
-//        parkingLotRepository.save(parkingLot);
-//    }
     public void deleteSpot(int spotId) {
 
         Spot spot = spotRepository1.findById(spotId)
@@ -91,15 +84,13 @@ public class ParkingLotServiceImpl implements ParkingLotService {
                 .findFirst()
                 .map(spot -> {
                     spot.setPricePerHour(pricePerHour);
-                    return spot;
+                    return spotRepository1.save(spot);
                 })
                 .orElseThrow(() -> new NoSpotAvailable( "No spot is available with Id" + spotId));
     }
 
     @Override
     public void deleteParkingLot(int parkingLotId) {
-        ParkingLot parkingLot = parkingLotRepository.findById(parkingLotId)
-                .orElseThrow(() -> new ParkingLotNotAvailable("ParkingLot Not Available for Id " + parkingLotId));
-        parkingLotRepository.delete(parkingLot);
+        parkingLotRepository.deleteById(parkingLotId);
     }
 }
