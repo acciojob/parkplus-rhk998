@@ -68,8 +68,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
             spot.setSpotType(SpotType.FOUR_WHEELER);
         }
         else{
-            throw new NoSpotAvailable(
-                    "No spot is available for a " + numberOfWheels + " wheeler");
+            spot.setSpotType(SpotType.OTHERS);
         }
 
         spotRepository1.save(spot);
