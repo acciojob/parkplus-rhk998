@@ -23,16 +23,6 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment pay(Integer reservationId, int amountSent, String mode) throws Exception {
-//        if (mode == null || !mode.matches("(?i)^(cash|card|upi)$")) {
-//            throw new RuntimeException("Payment mode not detected");
-//        }
-//        Payment payment = new Payment();
-//        Reservation reservation = reservationRepository2.findById(reservationId).orElse(null);
-//        payment.setReservation(reservation);
-//        payment.setPaymentMode(PaymentMode.valueOf(mode));
-//        Spot spot = spotRepository.findByReservationId(reservationId);
-//        int price = spot.getPricePerHour();
-//        if(amountSent < price) throw new InsufficientAmount("Insufficient Amount");
 
 
         Reservation reservation = reservationRepository2.findById(reservationId).orElse(null);

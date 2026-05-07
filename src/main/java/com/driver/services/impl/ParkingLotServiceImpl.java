@@ -20,6 +20,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     private final SpotRepository spotRepository1;
 
     List<Spot> spotList;
+    List<Spot> spots;
 
     @Autowired
     public ParkingLotServiceImpl(ParkingLotRepository parkingLotRepository, SpotRepository spotRepository1) {
@@ -38,25 +39,6 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     @Override
     public Spot addSpot(int parkingLotId, Integer numberOfWheels, Integer pricePerHour) {
-//        Spot spot = new Spot();
-//        ParkingLot parkingLot = parkingLotRepository.findById(parkingLotId).orElseThrow(()->new ParkingLotNotAvailable("parking lot not available"));
-//        List<Spot> spotList = new ArrayList<>();
-//        spotList = parkingLot.getSpotList();
-//        spot.setParkingLot(parkingLot);
-//        spot.setPricePerHour(pricePerHour);
-//        SpotType spotType = SpotType.OTHERS ;
-//        if(numberOfWheels == 2){
-//            spotType = SpotType.TWO_WHEELER;
-//        }else if(numberOfWheels == 4){
-//            spotType = SpotType.FOUR_WHEELER;
-//        }else{
-//            throw new NoSpotAvailable("No spot is available for a " + numberOfWheels +" wheeler");
-//        }
-//        spot.setSpotType(spotType);
-//        spotList.add(spot);
-//        parkingLotRepository.save(parkingLot);
-//        spotRepository1.save(spot);
-//        return spot;
         Spot spot = new Spot();
 
         spot.setPricePerHour(pricePerHour);
@@ -70,7 +52,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
         else{
             spot.setSpotType(SpotType.OTHERS);
         }
-
+        spot.setOccupied(false);
         spotRepository1.save(spot);
 
         return spot;
@@ -78,18 +60,6 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     @Override
     public void deleteSpot(int spotId) {
-
-//        Spot spot = spotRepository1.findById(spotId)
-//                .orElseThrow(() ->
-//                        new NoSpotAvailable("No spot is available with Id " + spotId));
-//
-//        ParkingLot parkingLot = spot.getParkingLot();
-//
-//        List<Spot> spotList = parkingLot.getSpotList();
-//
-//        spotList.removeIf(s -> s.getId() == spotId);
-//
-//        parkingLotRepository.save(parkingLot);
 
         spotRepository1.deleteById(spotId);
     }
@@ -107,12 +77,20 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 //                    return spotRepository1.save(spot);
 //                })
 //                .orElseThrow(() -> new NoSpotAvailable( "No spot is available with Id" + spotId));
-        Spot spot = new Spot();
+        ParkingLot parkingLot = parkingLotRepository.findById(parkingLotId).orElse(null);
 
+        spots = parkingLot.getSpotList();  Spot spot = new Spot();
+
+        for(Spot spt : spots){
+            if(spt.getId() == spotId){
+                spot = spt;
+            }
+        }
         spot.setId(spotId);
 
         spot.setPricePerHour(pricePerHour);
 
+        spot.setOccupied(false);
         spotRepository1.save(spot);
 
         return spot;
