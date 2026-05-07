@@ -37,24 +37,42 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     @Override
     public Spot addSpot(int parkingLotId, Integer numberOfWheels, Integer pricePerHour) {
+//        Spot spot = new Spot();
+//        ParkingLot parkingLot = parkingLotRepository.findById(parkingLotId).orElseThrow(()->new ParkingLotNotAvailable("parking lot not available"));
+//        List<Spot> spotList = new ArrayList<>();
+//        spotList = parkingLot.getSpotList();
+//        spot.setParkingLot(parkingLot);
+//        spot.setPricePerHour(pricePerHour);
+//        SpotType spotType = SpotType.OTHERS ;
+//        if(numberOfWheels == 2){
+//            spotType = SpotType.TWO_WHEELER;
+//        }else if(numberOfWheels == 4){
+//            spotType = SpotType.FOUR_WHEELER;
+//        }else{
+//            throw new NoSpotAvailable("No spot is available for a " + numberOfWheels +" wheeler");
+//        }
+//        spot.setSpotType(spotType);
+//        spotList.add(spot);
+//        parkingLotRepository.save(parkingLot);
+//        spotRepository1.save(spot);
+//        return spot;
         Spot spot = new Spot();
-        ParkingLot parkingLot = parkingLotRepository.findById(parkingLotId).orElseThrow(()->new ParkingLotNotAvailable("parking lot not available"));
-        List<Spot> spotList = new ArrayList<>();
-        spotList = parkingLot.getSpotList();
-        spot.setParkingLot(parkingLot);
+
         spot.setPricePerHour(pricePerHour);
-        SpotType spotType = SpotType.OTHERS ;
+
         if(numberOfWheels == 2){
-            spotType = SpotType.TWO_WHEELER;
-        }else if(numberOfWheels == 4){
-            spotType = SpotType.FOUR_WHEELER;
-        }else{
-            throw new NoSpotAvailable("No spot is available for a " + numberOfWheels +" wheeler");
+            spot.setSpotType(SpotType.TWO_WHEELER);
         }
-        spot.setSpotType(spotType);
-        spotList.add(spot);
-        parkingLotRepository.save(parkingLot);
+        else if(numberOfWheels == 4){
+            spot.setSpotType(SpotType.FOUR_WHEELER);
+        }
+        else{
+            throw new NoSpotAvailable(
+                    "No spot is available for a " + numberOfWheels + " wheeler");
+        }
+
         spotRepository1.save(spot);
+
         return spot;
     }
 
@@ -89,9 +107,9 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 //                    return spotRepository1.save(spot);
 //                })
 //                .orElseThrow(() -> new NoSpotAvailable( "No spot is available with Id" + spotId));
-        Spot spot = spotRepository1.findById(spotId)
-                .orElseThrow(() ->
-                        new NoSpotAvailable("No spot is available with Id" + spotId));
+        Spot spot = new Spot();
+
+        spot.setId(spotId);
 
         spot.setPricePerHour(pricePerHour);
 
