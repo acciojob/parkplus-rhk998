@@ -23,17 +23,32 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment pay(Integer reservationId, int amountSent, String mode) throws Exception {
-        if (mode == null || !mode.matches("(?i)^(cash|card|upi)$")) {
-            throw new RuntimeException("Payment mode not detected");
+//        if (mode == null || !mode.matches("(?i)^(cash|card|upi)$")) {
+//            throw new RuntimeException("Payment mode not detected");
+//        }
+//        Payment payment = new Payment();
+//        Reservation reservation = reservationRepository2.findById(reservationId).orElse(null);
+//        payment.setReservation(reservation);
+//        payment.setPaymentMode(PaymentMode.valueOf(mode));
+//        Spot spot = spotRepository.findByReservationId(reservationId);
+//        int price = spot.getPricePerHour();
+//        if(amountSent < price) throw new InsufficientAmount("Insufficient Amount");
+
+
+        Reservation reservation = reservationRepository2.findById(reservationId).orElse(null);
+        PaymentMode paymentMode = PaymentMode.valueOf(mode);
+        Spot spot = reservation.getSpot();
+        int bill = spot.getPricePerHour() * reservation.getNumberOfHours();
+        if(amountSent < bill){
+            throw new InsufficientAmount("Insufficient Amount");
         }
         Payment payment = new Payment();
-        Reservation reservation = reservationRepository2.findById(reservationId).orElse(null);
+
         payment.setReservation(reservation);
-        payment.setPaymentMode(PaymentMode.valueOf(mode));
-        Spot spot = spotRepository.findByReservationId(reservationId);
-        int price = spot.getPricePerHour();
-        if(amountSent < price) throw new InsufficientAmount("Insufficient Amount");
+        payment.setPaymentMode(paymentMode);
         payment.setPaymentCompleted(true);
+        payment.setPaymentCompleted(true);
+        spot.setOccupied(false);
         return paymentRepository2.save(payment);
     }
 }
