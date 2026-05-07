@@ -16,10 +16,15 @@ import java.util.List;
 
 @Service
 public class ParkingLotServiceImpl implements ParkingLotService {
-    @Autowired
-    ParkingLotRepository parkingLotRepository;
-    @Autowired
-    SpotRepository spotRepository1;
+    private final ParkingLotRepository parkingLotRepository;
+    private final SpotRepository spotRepository1;
+
+
+    public ParkingLotServiceImpl(ParkingLotRepository parkingLotRepository, SpotRepository spotRepository1) {
+        this.parkingLotRepository = parkingLotRepository;
+        this.spotRepository1 = spotRepository1;
+    }
+
     @Override
     public ParkingLot addParkingLot(String name, String address) {
         ParkingLot parkingLot = new ParkingLot();
