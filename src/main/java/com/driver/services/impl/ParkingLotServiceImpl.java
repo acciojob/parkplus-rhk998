@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ParkingLotServiceImpl implements ParkingLotService {
@@ -43,10 +44,10 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
         spot.setPricePerHour(pricePerHour);
 
-        if(numberOfWheels == 2){
+        if(numberOfWheels.equals(2)){
             spot.setSpotType(SpotType.TWO_WHEELER);
         }
-        else if(numberOfWheels == 4){
+        else if(numberOfWheels.equals(4)){
             spot.setSpotType(SpotType.FOUR_WHEELER);
         }
         else{
@@ -77,7 +78,13 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 //                    return spotRepository1.save(spot);
 //                })
 //                .orElseThrow(() -> new NoSpotAvailable( "No spot is available with Id" + spotId));
-        ParkingLot parkingLot = parkingLotRepository.findById(parkingLotId).orElse(null);
+        Optional<ParkingLot> oparkingLot = parkingLotRepository.findById(parkingLotId);
+        ParkingLot parkingLot ;
+        if(oparkingLot != null) {
+            parkingLot = oparkingLot.get();
+        }else{
+            parkingLot = null;
+        }
 
         spots = parkingLot.getSpotList();  Spot spot = new Spot();
 
